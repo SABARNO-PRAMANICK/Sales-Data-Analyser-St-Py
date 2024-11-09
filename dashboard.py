@@ -18,11 +18,24 @@ st.markdown('<style>div.block-container{padding-top:1.75rem;}</style>',unsafe_al
 fl= st.file_uploader(':file_folder: Upload a file',
                     type=(['csv','txt','xlsx','xls']))
 if fl is not None:
-    filename=fl.name
-    st.write(filename)
-    df=pd.read_csv(filename, encoding='ISO-8859-1')
+    # Load file
+    st.write(f"Loaded file: {fl.name}")
+    df = pd.read_csv(fl, encoding='ISO-8859-1')
+    
+    # Ensure 'Order Date' column exists
+    if 'Order Date' in df.columns:
+        # Processing and Visualization
+        df['Order Date'] = pd.to_datetime(df['Order Date'])
+        
+        # Example visualizations and filters (use your full code here)
+        st.subheader("Category-wise Sales")
+        category_sales = df.groupby('Category')['Sales'].sum().reset_index()
+        fig = px.bar(category_sales, x='Category', y='Sales', title="Category-wise Sales", template='seaborn')
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.error("The uploaded file must contain an 'Order Date' column.")
 else:
-    st.error("Please upload a file to proceed.")
+    st.info("Please upload a CSV, TXT, XLSX, or XLS file to proceed.")
 
 col1, col2=st.columns((2))
 df['Order Date']=pd.to_datetime(df['Order Date'])

@@ -22,8 +22,7 @@ if fl is not None:
     st.write(filename)
     df=pd.read_csv(filename, encoding='ISO-8859-1')
 else:
-    os.chdir(r'C:\Users\sabar\OneDrive\Desktop\data_analysis-st')
-    df=pd.read_csv('Superstore.csv',encoding='ISO=8859-1')
+    st.error("Please upload a file to proceed.")
 
 col1, col2=st.columns((2))
 df['Order Date']=pd.to_datetime(df['Order Date'])

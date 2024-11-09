@@ -1,0 +1,6 @@
+streamlit
+pandas
+os
+warnings
+plotly
+matplotlib.pyplot
